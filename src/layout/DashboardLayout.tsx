@@ -26,9 +26,10 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import HomeIcon from '@mui/icons-material/Home';
 
 import { Link } from "react-router-dom";
-import { LoginApi } from "../api/Login.api";
 import { LocalStorage } from "../util/LocalStorage";
 import { UserType } from "../model/user";
+import { Button } from "@mui/material";
+import { SweetAlert } from "../util/SweetAlert";
 
 const drawerWidth = 240;
 
@@ -100,6 +101,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
+
+
 export default function DashboardLayout() {
     const theme = useTheme();
 
@@ -110,18 +113,10 @@ export default function DashboardLayout() {
     const handleDrawerClose = () => setOpen(false);
 
     const navigate = useNavigate();
-    
-    const loginApi = React.useMemo(() => new LoginApi(),[]);
-   
-    const verifyToken = async () => {
-        await loginApi.verifyToken()
-        .then((_) => { navigate('/dashboard') })
-        .catch((_) => { navigate('/login') })
-    }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         //verifyToken()
-    },[]);
+    }, []);
 
     let menus = [
         { icon: <HomeIcon />, text: "Página inicial", link: "/" },
@@ -132,7 +127,7 @@ export default function DashboardLayout() {
 
     const person = LocalStorage.getItemPerson();
 
-    if( person.type == UserType.PROVIDER){
+    if (person.type == UserType.PROVIDER) {
         menus = [
             { icon: <HomeIcon />, text: "Página inicial", link: "/" },
             { icon: <DashboardIcon />, text: "Perfil", link: "/dashboard" },
@@ -142,6 +137,16 @@ export default function DashboardLayout() {
             { icon: <MonetizationOnIcon />, text: "Transações", link: "/dashboard/transation" },
         ];
     }
+
+
+    const onClick  = () => {
+        SweetAlert.confirmDialog("Desejas sair?", "Confirma se desejas sair do sistema",
+            async () => {
+                await LocalStorage.logaut();
+                navigate("/");
+            }
+        )
+    }    
 
     return (
         <Box sx={{ display: 'flex' }}>
@@ -154,6 +159,10 @@ export default function DashboardLayout() {
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">Panel de control</Typography>
                 </Toolbar>
+
+                <div className="absolute right-0 mt-2 mr-3">
+                    <Button variant="contained" color="error" onClick={onClick}>logaut</Button>
+                </div>
             </AppBar>
             <Drawer variant="permanent" open={open}>
                 <DrawerHeader>

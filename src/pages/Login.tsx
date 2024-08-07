@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, TextField } from "@mui/material";
+import { Button, Checkbox, CircularProgress, FormControlLabel, TextField } from "@mui/material";
 import FormAppLayout, { TypeForm } from "../layout/FormAppLayout";
 import { Link, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
@@ -7,15 +7,18 @@ import { LocalStorage } from "../util/LocalStorage";
 import { STATUS_UNAUTHORIZED } from "../util/environment";
 import { SweetAlert } from "../util/SweetAlert";
 
+
 export default function Login() {
 
     const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');    
+    const [password, setPassword] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
 
     const navigate = useNavigate();
     const loginApi = useMemo(() => new LoginApi(),[]);
 
     const login = () => {
+        setLoading(true);
         loginApi.sign(email, password).then(function ({ data }) {
           LocalStorage.setItemToken(data.access_token);
           LocalStorage.setItemPerson(data.user);
@@ -25,6 +28,8 @@ export default function Login() {
             SweetAlert.error("Falha no login", "Não foi possível fazer o login com as credências fornecidas, tenta novamente!", "Entendido");
             return;
           }
+        }).finally(() => {
+            setLoading(false);
         });
     }
 
@@ -38,8 +43,8 @@ export default function Login() {
                 <FormControlLabel control={<Checkbox defaultChecked />} label="Lembra-se de mí" />
                 <Link to="/register">Não tenho uma conta!</Link>
             </div>
-            <Button variant="contained" className="block" onClick={login}>
-                Login para a conta
+            <Button variant="outlined" className="block" onClick={login}>
+                 {loading ? <CircularProgress size={24} /> : "Login para a conta"}
             </Button>
         </FormAppLayout>
     )

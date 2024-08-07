@@ -4,6 +4,13 @@ export class LocalStorage {
     static KEY_PERSON: string = 'person_token';
     static KEY_PERSON_TYPE: string = 'person_type';
 
+
+    static logaut(){
+        localStorage.removeItem(this.KEY_TOKEN);
+        localStorage.removeItem(this.KEY_PERSON);
+        localStorage.removeItem(this.KEY_PERSON_TYPE);
+    }
+
     static setItemToken(value: any) {
         localStorage.setItem(this.KEY_TOKEN, value.toString());
     }

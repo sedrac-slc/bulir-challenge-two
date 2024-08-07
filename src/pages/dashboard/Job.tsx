@@ -58,9 +58,9 @@ export default function Job() {
                 }
             })
         } else if (title == ActionForm.DELETE) {
-            await jobApi.remove(model.id).then((_) => {
+            await jobApi.remove(model.id).then(() => {
                 setJobs([...jobs.filter((i) => i.id != model.id)]);
-            }).catch((_) => {
+            }).catch(() => {
                 SweetAlert.error("Falha no processo de eliminação", "Não foi possível eliminar o cliente, verifica se o cliente já tem transações realizadas");
             })
         }
@@ -85,9 +85,9 @@ export default function Job() {
         SweetAlert.confirmDialog("Contratação de serviço?", "O preço do serviço será retirado do saldo em carteira",
             async () => {
                 const customer = await LocalStorage.getItemUserType();
-                await jobApi.hiring({ job: row.id, customer: customer.id }).then((_) => {
+                await jobApi.hiring({ job: row.id, customer: customer.id }).then(() => {
                     SweetAlert.success("Contratação realizada","O serviço foi contratado com sucesso")
-                }).catch((_)=>{
+                }).catch(()=>{
                     SweetAlert.success("Falha na contratação","Não foi possível a contratação deste serviço")
                 })
             }

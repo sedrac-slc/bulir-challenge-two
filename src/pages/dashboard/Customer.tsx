@@ -54,9 +54,9 @@ export default function Customer() {
 
         }else if(title == ActionForm.DELETE){
 
-            await customerApi.remove(person.id).then((_) => {
+            await customerApi.remove(person.id).then(() => {
                 setCustomers([ ...customers.filter( (i) => i.id != person.id ) ]);
-            }).catch((_) => {
+            }).catch(() => {
                 SweetAlert.error("Falha no processo de eliminação", "Não foi possível eliminar o cliente, verifica se o cliente já tem transações realizadas");
             })
 
