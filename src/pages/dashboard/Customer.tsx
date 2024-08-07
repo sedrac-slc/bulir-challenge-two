@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import DialogUser from "../../components/DialogUser";
 import TableUser from "../../components/TableUser";
-import { Customer as CustomerModel } from "../../model/Customer";
+import { Customer as CustomerModel } from "../../model/customer";
 import { CustomerApi } from "../../api/Customer.api";
 import { UserType } from "../../model/user";
 import { createUser } from "../../util/FormDataUtil";

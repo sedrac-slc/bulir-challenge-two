@@ -1,4 +1,4 @@
-import { Customer } from "./Customer";
+import { Customer } from "./customer";
 import { Job } from "./job";
 import { Provider } from "./provider";
 

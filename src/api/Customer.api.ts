@@ -1,6 +1,6 @@
 import axios from "axios";
-import { Customer } from "../model/Customer";
 import AbstractApi from "./abstract.api";
+import { Customer  } from "../model/customer";
 
 export class CustomerApi extends AbstractApi{
     endpoint: string = "customers";
